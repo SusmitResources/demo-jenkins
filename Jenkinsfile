@@ -9,12 +9,21 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
+        stage('Checkout SCM') {
             steps {
-                git 'git@github.com:SusmitResources/demo-jenkins.git'
+                checkout scm
             }
         }
 
+        stage('Verify Workspace') {
+            steps {
+                sh '''
+                  echo "Workspace:"
+                  pwd
+                  ls -la
+                '''
+            }
+        }
         stage('Build') {
             steps {
                 sh 'ant clean build'
