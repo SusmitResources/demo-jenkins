@@ -1,0 +1,9 @@
+<project name="demo" default="build">
+    <target name="clean">
+        <echo>Cleaning project</echo>
+    </target>
+
+    <target name="build">
+        <echo>Building project</echo>
+    </target>
+</project>
