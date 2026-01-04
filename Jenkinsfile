@@ -1,29 +1,20 @@
 pipeline {
     agent any
 
-    environment {
-        DEV_HOST = "3dexp-dev.example.com"
-        QA_HOST  = "3dexp-qa.example.com"
-        PROD_HOST= "3dexp-prod.example.com"
-    }
-
     stages {
 
         stage('Checkout SCM') {
             steps {
                 checkout scm
-            }
-        }
-
-        stage('Verify Workspace') {
-            steps {
                 sh '''
-                  echo "Workspace:"
+                  echo "Workspace path:"
                   pwd
+                  echo "Files in workspace:"
                   ls -la
                 '''
             }
         }
+
         stage('Build') {
             steps {
                 sh 'ant clean build'
