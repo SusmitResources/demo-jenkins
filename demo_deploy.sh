@@ -24,7 +24,7 @@ case "$ENV" in
     ;;
 esac
 
-ARTIFACT="/opt/plm/3dexp/devops_updates/"
+ARTIFACT="/opt/jenkins/plm/3dexp/devops_updates"
 REMOTE_DIR="/opt/plm/3dexp/apps/3dpassport/linux_a64/code/tomee/bin"
 
 echo "Deploying $ARTIFACT to $TARGET_HOST"
