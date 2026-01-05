@@ -24,14 +24,16 @@ case "$ENV" in
     ;;
 esac
 
-ARTIFACT="/opt/jenkins/plm/3dexp/devops_updates"
-REMOTE_DIR="/opt/plm/3dexp/apps/3dpassport/linux_a64/code/tomee/bin"
+DEPLOY_USER="deploy"
+ARTIFACT="/opt/jenkins/data/workspace/app.war"
+REMOTE_DIR="/opt/plm/3dexp/apps/3dpassport/linux_a64/code/tomee/webapps"
 
 echo "Deploying $ARTIFACT to $TARGET_HOST"
 
-scp $ARTIFACT deploy@$TARGET_HOST:$REMOTE_DIR/
+scp -o StrictHostKeyChecking=no \
+"$ARTIFACT" ${DEPLOY_USER}@${TARGET_HOST}:${REMOTE_DIR}/
 
-ssh deploy@$TARGET_HOST << EOF
+ssh -o StrictHostKeyChecking=no ${DEPLOY_USER}@${TARGET_HOST} <<EOF
   sudo systemctl stop tomcat
   sleep 5
   sudo systemctl start tomcat
