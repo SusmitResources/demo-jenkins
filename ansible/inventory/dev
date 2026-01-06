@@ -1,0 +1,2 @@
+[dev]
+3dexp-dev.example.com ansible_user=devops

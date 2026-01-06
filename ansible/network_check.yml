@@ -1,0 +1,21 @@
+---
+- name: Network Health Check on DEV
+  hosts: dev
+  become: false
+  gather_facts: no
+
+  tasks:
+    - name: Copy network health script
+      copy:
+        src: scripts/network_health_check.sh
+        dest: /tmp/network_health_check.sh
+        mode: '0755'
+
+    - name: Execute network health script
+      shell: /tmp/network_health_check.sh
+      register: network_output
+      failed_when: network_output.rc != 0
+
+    - name: Show network output
+      debug:
+        msg: "{{ network_output.stdout_lines }}"
