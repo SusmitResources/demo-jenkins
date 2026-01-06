@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOGFILE="/var/log/network_health_$(date +%F).log"
+LOGFILE="$(pwd)/network_health_$(date +%F).log"
 
 echo "=========================================" | tee -a "$LOGFILE"
 echo " Network Health Check - $(date)" | tee -a "$LOGFILE"
