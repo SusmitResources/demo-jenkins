@@ -49,14 +49,12 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Build stage started"
-                # build commands go here
             }
         }
 
         stage('Deploy') {
             steps {
                 echo "Deploy stage started"
-                # deployment commands go here
             }
         }
     }
