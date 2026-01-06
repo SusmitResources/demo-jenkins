@@ -1,0 +1,48 @@
+pipeline {
+    agent none
+
+    stages {
+
+        stage('Run on DEV') {
+            agent { label 'dev-node' }
+            steps {
+                checkout scm
+                sh '''
+                chmod +x scripts/*.sh
+                scripts/network_health_check.sh
+                '''
+            }
+        }
+
+        stage('Run on QA') {
+            agent { label 'qa-node' }
+            steps {
+                checkout scm
+                sh '''
+                chmod +x scripts/*.sh
+                scripts/network_health_check.sh
+                '''
+            }
+        }
+
+        stage('Run on PROD') {
+            agent { label 'prod-node' }
+            steps {
+                checkout scm
+                sh '''
+                chmod +x scripts/*.sh
+                scripts/network_health_check.sh
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "Network checks completed on all environments"
+        }
+        failure {
+            echo "One or more environment checks failed"
+        }
+    }
+}
