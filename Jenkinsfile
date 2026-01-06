@@ -3,52 +3,34 @@ pipeline {
 
     stages {
 
-        stage('Checkout SCM') {
+        stage('Network Pre-Check') {
             steps {
-                checkout scm
                 sh '''
-                  echo "Workspace path:"
-                  pwd
-                  echo "Files in workspace:"
-                  ls -la
+                chmod +x scripts/network_health_check.sh
+                scripts/network_health_check.sh
                 '''
             }
         }
 
         stage('Build') {
             steps {
-                sh 'ant clean build'
+                echo "Build stage started"
             }
         }
 
-        stage('Deploy to DEV') {
+        stage('Deploy') {
             steps {
-                sh './demo_deploy.sh dev'
+                echo "Deploying application"
             }
         }
+    }
 
-        stage('Approval for QA') {
-            steps {
-                input message: 'Deploy to QA?'
-            }
+    post {
+        failure {
+            echo "Pipeline failed due to network or build issue"
         }
-
-        stage('Deploy to QA') {
-            steps {
-                sh './demo_deploy.sh qa'
-            }
-        }
-
-        stage('Approval for PROD') {
-            steps {
-                input message: 'Deploy to PROD?'
-            }
-        }
-
-        stage('Deploy to PROD') {
-            steps {
-                sh './demo_deploy.sh prod'
-            }
+        success {
+            echo "Pipeline completed successfully"
         }
     }
 }
